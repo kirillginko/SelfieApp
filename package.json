@@ -1,0 +1,20 @@
+{
+  "name": "beernouvoue",
+  "version": "1.0.0",
+  "description": "Frontend Beer template",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "beer",
+    "nouvoue"
+  ],
+  "author": "kirill ginko",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nedb": "^1.8.0"
+  }
+}
