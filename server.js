@@ -2,7 +2,13 @@ const express = require('express');
 const Datastore = require('nedb');
 
 const app = express();
-app.listen(3000, () => console.log('listening at 3000'));
+const port = process.env.PORT || 3000;
+require('dotenv').config();
+
+// console.log(process.env)
+app.listen(port, () => {
+  console.log(`Starting server at ${port}`);
+});
 app.use(express.static('public'));
 app.use(express.json({ limit: '1mb' }));
 
