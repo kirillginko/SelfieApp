@@ -34,41 +34,75 @@
 //     console.log('geolocation not available');
 //   }
 // }
-var video;
-var slider
+// var video;
+// var slider
+
+// function setup() {
+//   canvas = createCanvas(640, 480, WEBGL);
+//   canvas.id('p5canvas');
+//   video = createCapture(VIDEO);
+//   video.size(640, 480);
+//   // video.hide();
+//   video.id('p5video');
+//   // slider = createSlider(0, 1, 0.5, 0.01);
+//   // slider.id('blur-slider')
+
+//   var seriously = new Seriously();
+
+//   var src = seriously.source('#p5video')
+//   var target = seriously.target('#p5canvas')
+
+//   // var blur = seriously.effect('blur');
+//   // blur.amount = '#blur-slider';
+//   // blur.source = src;
+//   // target.source = blur;
+// // <!-------------chroma------------------!>
+//   // var chroma = seriously.effect('chroma');
+//   // chroma.source = src;
+//   // target.source = chroma;
+//   // var r = 97 / 255;
+//   // var g = 81 / 255;
+//   // var b = 142 / 255;
+//   // chroma.screen = [r,g,b,1];
+
+//   var accumulator = seriously.effect('accumulator');
+//   accumulator.source = src;
+//   target.source = accumulator;
+
+
+//   seriously.go();
+// }
+
+let video;
+let poseNet;
+let noseX = 0;
+let noseY = 0;
 
 function setup() {
-  canvas = createCanvas(640, 480, WEBGL);
-  canvas.id('p5canvas');
+  createCanvas(640,480);
   video = createCapture(VIDEO);
-  video.size(640, 480);
-  // video.hide();
-  video.id('p5video');
-  // slider = createSlider(0, 1, 0.5, 0.01);
-  // slider.id('blur-slider')
+  video.hide();
+  poseNet = ml5.poseNet(video, modelReady);
+  poseNet.on('pose', gotPoses);
+}
 
-  var seriously = new Seriously();
-
-  var src = seriously.source('#p5video')
-  var target = seriously.target('#p5canvas')
-
-  // var blur = seriously.effect('blur');
-  // blur.amount = '#blur-slider';
-  // blur.source = src;
-  // target.source = blur;
-// <!-------------chroma------------------!>
-  // var chroma = seriously.effect('chroma');
-  // chroma.source = src;
-  // target.source = chroma;
-  // var r = 97 / 255;
-  // var g = 81 / 255;
-  // var b = 142 / 255;
-  // chroma.screen = [r,g,b,1];
-
-  var accumulator = seriously.effect('accumulator');
-  accumulator.source = src;
-  target.source = accumulator;
+function gotPoses(poses) {
+  // console.log(poses);
+  if (poses.length > 0) {
+  noseX = poses[0].pose.keypoints[0].position.x;
+  noseY = poses[0].pose.keypoints[0].position.y;
+  }
+}
 
 
-  seriously.go();
+function modelReady() {
+console.log('model ready');
+}
+
+function draw() {
+  image(video, 0, 0);
+
+  fill(255, 0, 0);
+  ellipse(noseX, noseY, 100);
+  // filter(GRAY);
 }
